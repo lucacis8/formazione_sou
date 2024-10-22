@@ -3,8 +3,8 @@
 # Ottieni la versione del kernel attualmente in esecuzione
 current_kernel=$(uname -r)
 
-# Elenca tutte le versioni del kernel installate e filtra i metapacchetti
-installed_kernels=$(dpkg --list | grep linux-image | grep -v "generic-hwe" | awk '{print $2}' | sed 's/linux-image-//' | sort -V)
+# Elenca tutte le versioni del kernel installate, considerando solo i pacchetti con numeri di versione
+installed_kernels=$(dpkg --list | grep 'linux-image-.*-generic' | awk '{print $2}' | sed 's/linux-image-//' | sort -V)
 
 # Ottieni l'ultima versione del kernel installata
 latest_kernel=$(echo "$installed_kernels" | tail -n 1)
