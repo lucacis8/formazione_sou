@@ -43,7 +43,7 @@ Entrambi i nodi installano Docker e avviano un container `echo-server` basato su
      ```
    - Controlla lo stato dei container Docker:
      ```bash
-     docker ps
+     sudo watch docker ps -a
      ```
 
 ## Dettagli della Configurazione
