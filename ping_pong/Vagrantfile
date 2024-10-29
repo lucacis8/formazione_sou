@@ -1,0 +1,111 @@
+Vagrant.configure("2") do |config|
+  # Base box per entrambi i nodi
+  config.vm.box = "ubuntu/bionic64"
+
+  # Configurazione nodo1 con IP statico
+  config.vm.define "node1" do |node|
+    node.vm.network "private_network", ip: "192.168.50.10"
+  end
+
+  # Configurazione nodo2 con IP statico
+  config.vm.define "node2" do |node|
+    node.vm.network "private_network", ip: "192.168.50.11"
+  end
+
+  # Configurazione del provider VirtualBox per disabilitare il file di log della console
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--uartmode1", "disconnected"]
+  end
+
+  # Provisioning per installare Docker e configurare cron su ciascun nodo
+  ["node1", "node2"].each do |node_name|
+    config.vm.define node_name do |node|
+      node.vm.provision "shell", inline: <<-SHELL
+        # Imposta l'ambiente non interattivo
+        export DEBIAN_FRONTEND=noninteractive
+
+        # Assicurati che la directory per il repository di Docker esista
+        sudo mkdir -p /etc/apt/sources.list.d
+
+        # Aggiorna e installa i prerequisiti
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq apt-transport-https ca-certificates curl software-properties-common
+
+        # Aggiungi chiave GPG di Docker e repository
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee 
+/etc/apt/sources.list.d/docker.list > /dev/null
+
+        # Installa Docker
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+
+        # Nome del container specifico per questo nodo
+        CONTAINER_NAME="echo-server-#{node_name}"
+
+        # Scarica l'immagine Docker solo se non è già presente
+        if ! docker images ealen/echo-server | grep -q ealen/echo-server; then
+          docker pull ealen/echo-server
+        fi
+
+        # Crea il container solo se non esiste
+        if [ "$(docker ps -a -q -f name=$CONTAINER_NAME)" == "" ]; then
+          echo "Creazione iniziale del container $CONTAINER_NAME su $(hostname)."
+          docker create --name $CONTAINER_NAME -p 8080:8080 ealen/echo-server
+        fi
+
+        # Crea uno script di gestione per il ping pong
+        cat << 'EOF' | sudo tee /usr/local/bin/manage_ping_pong.sh
+#!/bin/bash
+
+# Nome dei container
+CONTAINER_NAME1="echo-server-node1"
+CONTAINER_NAME2="echo-server-node2"
+
+# Ottieni il minuto corrente
+MINUTE=$(date +"%M")
+
+# Funzione per controllare se un container esiste
+container_exists() {
+    docker ps -a --format '{{.Names}}' | grep -q "^$1$"
+}
+
+# Controlla se il minuto è pari o dispari
+if (( MINUTE % 2 == 0 )); then
+    echo "Minuto pari ($MINUTE): arresto $CONTAINER_NAME1 e avvio $CONTAINER_NAME2."
+    
+    # Spegni echo-server-node1 se esiste e sta girando
+    if container_exists "$CONTAINER_NAME1" && [ "$(docker ps -q -f name=$CONTAINER_NAME1)" != "" ]; then
+        docker stop $CONTAINER_NAME1
+    fi
+    
+    # Accendi echo-server-node2 se esiste
+    if container_exists "$CONTAINER_NAME2"; then
+        docker start $CONTAINER_NAME2
+    fi
+else
+    echo "Minuto dispari ($MINUTE): arresto $CONTAINER_NAME2 e avvio $CONTAINER_NAME1."
+    
+    # Spegni echo-server-node2 se esiste e sta girando
+    if container_exists "$CONTAINER_NAME2" && [ "$(docker ps -q -f name=$CONTAINER_NAME2)" != "" ]; then
+        docker stop $CONTAINER_NAME2
+    fi
+    
+    # Accendi echo-server-node1 se esiste
+    if container_exists "$CONTAINER_NAME1"; then
+        docker start $CONTAINER_NAME1
+    fi
+fi
+EOF
+
+        # Rendi lo script eseguibile
+        sudo chmod +x /usr/local/bin/manage_ping_pong.sh
+
+        # Configurazione del crontab per gestire il ping pong del container
+        (crontab -l 2>/dev/null; echo "* * * * * /usr/local/bin/manage_ping_pong.sh") | sudo crontab -
+      SHELL
+    end
+  end
+end
