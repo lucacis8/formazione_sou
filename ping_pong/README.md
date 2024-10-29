@@ -49,14 +49,14 @@ Entrambi i nodi installano Docker e avviano un container `echo-server` basato su
 ## Dettagli della Configurazione
 
 - **Vagrantfile**: Configura i nodi `node1` e `node2`, gestisce l'installazione di Docker e crea i container `echo-server`.
-- **Script di Gestione `manage_ping_pong.sh`**: Uno script eseguito da cron alterna l'attivazione dei container `echo-server` ogni minuto. Nei minuti pari viene attivato `echo-server` su `node2`, mentre nei minuti dispari su `node1`.
+- **Script di Gestione `manage_ping_pong.sh`**: Uno script eseguito da cron alterna l'attivazione dei container `echo-server` ogni minuto. Nei minuti dispari viene attivato `echo-server` su `node1`, mentre nei minuti pari su `node2`.
 
 ## Configurazione di Cron
 
 Lo script `manage_ping_pong.sh` viene eseguito ogni minuto tramite cron e alterna l’esecuzione del container:
 
-- **Minuti pari**: Avvia `echo-server-node2` e arresta `echo-server-node1`.
 - **Minuti dispari**: Avvia `echo-server-node1` e arresta `echo-server-node2`.
+- **Minuti pari**: Avvia `echo-server-node2` e arresta `echo-server-node1`.
 
 La configurazione di cron è impostata automaticamente nel provisioning del Vagrantfile.
 
