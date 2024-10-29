@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Scelta della box Linux (Ubuntu 20.04)
+  config.vm.box = "ubuntu/focal64"
+
+  # Configura il provider come VirtualBox
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 1024
+    vb.cpus = 1
+  end
+
+  # Configurazione della rete: Imposta un IP statico
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Configurazione della rete: porta 80 della VM sarà mappata sulla porta 8080 dell'host
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Provisioning tramite uno script shell
+  config.vm.provision "shell", inline: <<-SHELL
+    # Aggiorna i pacchetti e installa Nginx
+    sudo apt-get update
+    sudo apt-get install -y nginx
+
+    # Crea la directory per il sito web della DevOps Radio
+    sudo mkdir -p /var/www/devops_radio
+
+    # Crea la pagina HTML
+    echo '<!DOCTYPE html>
+<html>
+<head>
+  <title>DevOps Radio</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #282c34; color: #ffffff; text-align: center; padding: 50px; }
+    h1 { font-size: 4em; }
+    p { font-size: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to DevOps Radio!</h1>
+  <p>Your favorite DevOps hits, 24/7.</p>
+</body>
+</html>' | sudo tee /var/www/devops_radio/index.html
+
+    # Configura Nginx per servire il sito
+    sudo rm /etc/nginx/sites-enabled/default
+    echo 'server {
+      listen 80;
+      server_name localhost;
+      root /var/www/devops_radio;
+      index index.html;
+    }' | sudo tee /etc/nginx/sites-available/devops_radio
+
+    # Abilita il sito e riavvia Nginx
+    sudo ln -s /etc/nginx/sites-available/devops_radio /etc/nginx/sites-enabled/
+    sudo systemctl restart nginx
+  SHELL
+end
