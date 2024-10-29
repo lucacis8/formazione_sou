@@ -27,19 +27,20 @@ Vagrant.configure("2") do |config|
         # Assicurati che la directory per il repository di Docker esista
         sudo mkdir -p /etc/apt/sources.list.d
 
-        # Aggiorna e installa i prerequisiti
-        sudo apt-get update -qq
-        sudo apt-get install -y -qq apt-transport-https ca-certificates curl software-properties-common
+        # Verifica se Docker è installato, altrimenti installalo
+        which docker || sudo apt-get install -y -qq apt-transport-https ca-certificates curl software-properties-common
 
         # Aggiungi chiave GPG di Docker e repository
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
         echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-        # Installa Docker
-        sudo apt-get update -qq
-        sudo apt-get install -y -qq docker.io
-        sudo systemctl start docker
-        sudo systemctl enable docker
+        # Installa Docker se non già presente
+        which docker || {
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+        }
 
         # Nome del container specifico per questo nodo
         CONTAINER_NAME="echo-server-#{node_name}"
