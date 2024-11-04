@@ -86,6 +86,3 @@ Confronta il PID del processo eseguito sia dentro che fuori dal container.
 
 ## Conclusione
 Questo esercizio ha mostrato come i namespaces Linux creano un isolamento delle risorse di sistema nei container, illustrando le somiglianze e le differenze di comportamento tra l’ambiente containerizzato e l’host.
-
----
-```
