@@ -1,4 +1,3 @@
-```markdown
 # Esercizio Container/Namespaces
 
 Questo esercizio ha lo scopo di approfondire il funzionamento dei namespaces in relazione alla tecnologia dei container su Linux. Utilizzeremo `Docker` o `PodMan` per eseguire un processo con lo stesso namespace di un container e verificare l’isolamento delle risorse di sistema.
