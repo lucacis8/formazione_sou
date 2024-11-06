@@ -1,4 +1,4 @@
-# Esercizio: Container e CGroups
+# Esercizio Container/CGroups
 
 ## Scopo
 Comprendere e utilizzare i Control Groups (CGroups) in relazione ai container.
