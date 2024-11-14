@@ -1,0 +1,38 @@
+---
+- name: Creazione utenti
+  hosts: localhost
+  become: true
+  vars:
+    utenti:
+      - name: mario
+        group: staff
+        home: /home/mario
+        shell: /bin/bash
+      - name: lucia
+        group: admin
+        home: /home/lucia
+        shell: /bin/zsh
+      - name: giovanni
+        group: users
+        home: /home/giovanni
+        shell: /bin/bash
+
+  tasks:
+    - name: Creazione gruppo utente
+      ansible.builtin.group:
+        name: "{{ item.group }}"
+        state: present
+      loop: "{{ utenti }}"
+      loop_control:
+        label: "{{ item.group }}"
+
+    - name: Creazione utente con specifiche personalizzate
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        group: "{{ item.group }}"
+        home: "{{ item.home }}"
+        shell: "{{ item.shell }}"
+        state: present
+      loop: "{{ utenti }}"
+      loop_control:
+        label: "{{ item.name }}"
