@@ -8,7 +8,7 @@ L'esercizio ha lo scopo di migliorare la comprensione e l'utilizzo di strutture 
 
 ## Descrizione dei playbook
 
-### 1. `install_pacchetti.yml`
+### 1. `installa_pacchetti.yml`
 
 Questo playbook permette di installare o disinstallare pacchetti in base a un dizionario che definisce lo stato desiderato per ogni pacchetto:
 - `present` per installare il pacchetto.
@@ -23,4 +23,36 @@ Questo playbook permette di installare o disinstallare pacchetti in base a un di
 Il playbook può essere lanciato con il comando:
 
 ```bash
-ansible-playbook install_pacchetti.yml
+ansible-playbook installa_pacchetti.yml
+```
+
+### 2. `crea_utenti.yml`
+
+Questo playbook crea una lista di utenti sulla base di una lista di dizionari, dove ogni dizionario rappresenta un utente con le proprie specifiche:
+- **name**: nome dell’utente.
+- **group**: gruppo dell’utente.
+- **home**: directory home dell’utente.
+- **shell**: shell di accesso dell’utente.
+
+#### Variabili
+
+- **utenti**: una lista di dizionari, ciascuno contenente i dettagli per ogni utente.
+
+#### Utilizzo
+
+Il playbook può essere eseguito con il comando:
+
+```bash
+ansible-playbook crea_utenti.yml
+```
+
+### Requisiti
+
+- Ansible installato sulla macchina in uso.
+- Permessi sudo per poter installare pacchetti e creare utenti.
+
+### Caricamento su GitHub
+
+1.	Creare un nuovo repository su GitHub.
+2.	Aggiungere i file installa_pacchetti.yml, crea_utenti.yml e README.md al repository.
+3.	Eseguire il push del repository.
