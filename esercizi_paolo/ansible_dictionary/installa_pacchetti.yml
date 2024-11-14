@@ -1,0 +1,19 @@
+---
+- name: Installazione/Disinstallazione Pacchetti
+  hosts: localhost
+  become: true
+  vars:
+    pacchetti:
+      vim: present
+      git: present
+      nano: absent
+      curl: present
+
+  tasks:
+    - name: Gestione pacchetti in base allo stato definito nel dizionario
+      ansible.builtin.package:
+        name: "{{ item.key }}"
+        state: "{{ item.value }}"
+      loop: "{{ pacchetti | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
