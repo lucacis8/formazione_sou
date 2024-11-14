@@ -1,0 +1,46 @@
+- name: Esempio Playbook Ansible per gestione pacchetti e utenti
+  hosts: all
+  become: yes
+  vars:
+    # Lista di pacchetti da installare o rimuovere con relativo stato
+    packages:
+      nano: present
+      git: absent
+      htop: present
+
+    # Lista di utenti da creare con specifiche dettagliate
+    users:
+      - username: mario
+        group: staff
+        home: /home/mario
+        shell: /bin/bash
+      - username: luigi
+        group: developers
+        home: /home/luigi
+        shell: /bin/zsh
+
+  tasks:
+    - name: Gestione pacchetti
+      ansible.builtin.package:
+        name: "{{ item.key }}"
+        state: "{{ item.value }}"
+      loop: "{{ packages | dict2items }}"
+      register: package_results
+
+    - name: Creazione utenti
+      ansible.builtin.user:
+        name: "{{ item.username }}"
+        group: "{{ item.group }}"
+        home: "{{ item.home }}"
+        shell: "{{ item.shell }}"
+        state: present
+      loop: "{{ users }}"
+      register: user_results
+
+    - name: Mostra risultati installazione pacchetti
+      ansible.builtin.debug:
+        var: package_results
+
+    - name: Mostra risultati creazione utenti
+      ansible.builtin.debug:
+        var: user_results
