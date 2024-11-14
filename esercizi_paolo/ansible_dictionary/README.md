@@ -36,7 +36,7 @@ Questo playbook crea una lista di utenti sulla base di una lista di dizionari, d
 
 #### Variabili
 
-- **utenti**: una lista di dizionari, ciascuno contenente i dettagli per ogni utente.
+- `utenti`: una lista di dizionari, ciascuno contenente i dettagli per ogni utente.
 
 #### Utilizzo
 
