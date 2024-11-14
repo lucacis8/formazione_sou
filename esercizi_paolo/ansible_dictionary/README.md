@@ -50,9 +50,3 @@ ansible-playbook crea_utenti.yml
 
 - Ansible installato sulla macchina in uso.
 - Permessi sudo per poter installare pacchetti e creare utenti.
-
-### Caricamento su GitHub
-
-1.	Creare un nuovo repository su GitHub.
-2.	Aggiungere i file installa_pacchetti.yml, crea_utenti.yml e README.md al repository.
-3.	Eseguire il push del repository.
