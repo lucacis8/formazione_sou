@@ -30,7 +30,7 @@ Entrambi i nodi installano Docker e avviano un container `echo-server` basato su
    ```bash
    vagrant up
    ```
-   Questo comando crea e configura le macchine virtuali, installa Docker e configura il servizio `echo-server` con la logica di alternanza.
+Questo comando crea e configura le macchine virtuali, installa Docker e configura il servizio `echo-server` con la logica di alternanza.
 
 3. **Verifica dell'Installazione**:
    - Accedi ai nodi:
