@@ -22,8 +22,8 @@ Entrambi i nodi installano Docker e avviano un container `echo-server` basato su
 
 1. **Clona il repository**:
    ```bash
-   git clone https://github.com/lucacis8/formazione_sou
-   cd ping_pong
+   git clone <repository-url>
+   cd <repository-folder>
    ```
 
 2. **Avvia Vagrant**:
