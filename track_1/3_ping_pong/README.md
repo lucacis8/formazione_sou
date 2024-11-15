@@ -87,7 +87,6 @@ La configurazione di cron è impostata automaticamente nel provisioning del Vagr
 ## Rimozione del Progetto
 
 Per fermare e rimuovere le macchine virtuali:
-
 ```bash
 vagrant destroy -f
 ```
