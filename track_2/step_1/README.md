@@ -68,7 +68,7 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 
 4. Verifica lo stato dei container Docker nella VM:
    ```bash
-   docker ps
+   sudo watch docker ps -a
    ```
 
 5. Apri il browser e accedi ai servizi Jenkins tramite gli URL forniti sopra.
