@@ -55,42 +55,38 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
    ```bash
    git clone <repository-url>
    cd <repository-folder>
+   ```
 
-	2.	Avvia la VM con Vagrant:
+2. Avvia la VM con Vagrant:
+   ```bash
+   vagrant up
+   ```
+3. Accedi alla VM (se necessario):
+   ```bash
+   vagrant ssh
+   ```
 
-vagrant up
+4. Verifica lo stato dei container Docker nella VM:
+   ```bash
+   docker ps
+   ```
 
+5. Apri il browser e accedi ai servizi Jenkins tramite gli URL forniti sopra.
 
-	3.	Accedi alla VM (se necessario):
+## Note
 
-vagrant ssh
+- Assicurati di avere Vagrant e VirtualBox installati sul tuo sistema.
+- Questo progetto è stato testato su processori Intel e potrebbe non funzionare su dispositivi Apple Silicon ARM.
+- Ricorda di sostituire la chiave segreta dello Slave (JENKINS_SECRET) con il valore corretto generato dal Jenkins Master.
 
+## Requisiti
 
-	4.	Verifica lo stato dei container Docker nella VM:
+- Vagrant 2.2.19 o successivo
+- VirtualBox 6.1 o successivo
+- Ansible 2.9 o successivo
+- Connessione a Internet per scaricare le immagini e i pacchetti richiesti.
 
-docker ps
+## Risoluzione dei Problemi
 
-
-	5.	Apri il browser e accedi ai servizi Jenkins tramite gli URL forniti sopra.
-
-Note
-
-	•	Assicurati di avere Vagrant e VirtualBox installati sul tuo sistema.
-	•	Questo progetto è stato testato su processori Intel e potrebbe non funzionare su dispositivi Apple Silicon ARM.
-	•	Ricorda di sostituire la chiave segreta dello Slave (JENKINS_SECRET) con il valore corretto generato dal Jenkins Master.
-
-Requisiti
-
-	•	Vagrant 2.2.19 o successivo
-	•	VirtualBox 6.1 o successivo
-	•	Ansible 2.9 o successivo
-	•	Connessione a Internet per scaricare le immagini e i pacchetti richiesti.
-
-Risoluzione dei Problemi
-
-	•	Errore di connessione alla VM: Assicurati che VirtualBox sia configurato correttamente e che Vagrant utilizzi la versione corretta del provider.
-	•	Jenkins non accessibile: Verifica che i container Docker siano in esecuzione tramite docker ps e controlla eventuali errori nei log.
-
-Per domande o contributi, apri una issue nel repository.
-
-Questo file fornisce una spiegazione chiara e dettagliata, omettendo i contenuti dei file ma mantenendo le istruzioni principali e il contesto necessario.
+- **Errore di connessione alla VM**: Assicurati che VirtualBox sia configurato correttamente e che Vagrant utilizzi la versione corretta del provider.
+- **Jenkins non accessibile**: Verifica che i container Docker siano in esecuzione tramite docker ps e controlla eventuali errori nei log.
