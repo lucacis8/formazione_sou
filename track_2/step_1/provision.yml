@@ -73,7 +73,7 @@
     - name: Esegui il container Jenkins Slave
       docker_container:
         name: jenkins_slave
-        image: jenkins/jnlp-slave
+        image: jenkins/inbound-agent
         state: started
         restart_policy: always
         networks:
