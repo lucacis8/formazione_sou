@@ -91,13 +91,13 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 
 7.	Aggiorna il file provision.yml:
 - Nel file provision.yml, sostituisci il valore di JENKINS_SECRET nella sezione env dello Slave con quello copiato:
-
-env:
-  JENKINS_URL: http://172.20.0.2:8080
-  JENKINS_AGENT_NAME: "jenkins_slave"
-  JENKINS_AGENT_WORKDIR: "/home/jenkins"
-  JENKINS_SECRET: "jenkins_secret"  # Sostituisci con la chiave segreta del Master
-
+   ```bash
+   env:
+     JENKINS_URL: http://172.20.0.2:8080
+     JENKINS_AGENT_NAME: "jenkins_slave"
+     JENKINS_AGENT_WORKDIR: "/home/jenkins"
+     JENKINS_SECRET: "jenkins_secret"  # Sostituisci con la chiave segreta del Master
+   ```
 
 - Applica nuovamente il provisioning:
    ```bash
