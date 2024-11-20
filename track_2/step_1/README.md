@@ -84,10 +84,10 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 - Vai su Gestisci Jenkins > Nodes > New Node.
 - Inserisci un nome per il nodo (es. jenkins_slave) e seleziona Agente permanente.
 - Configura i dettagli del nodo:
-	•	Nome: jenkins_slave
-	•	Directory radice remota: /home/jenkins
-	•	Metodo di avvio: Avvia l'agente facendolo connettere al master.
-	•	Salva il nodo e nella schermata del nodo appena creato copia il jenkins_secret.
+- Nome: jenkins_slave
+- Directory radice remota: /home/jenkins
+- Metodo di avvio: Avvia l'agente facendolo connettere al master.
+- Salva il nodo e nella schermata del nodo appena creato copia il jenkins_secret.
 
 7.	Aggiorna il file provision.yml:
 - Nel file provision.yml, sostituisci il valore di JENKINS_SECRET nella sezione env dello Slave con quello copiato:
