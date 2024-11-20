@@ -76,9 +76,9 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
    sudo docker exec jenkins_master cat /var/jenkins_home/secrets/initialAdminPassword
    ```
 
-- Incolla la password nella schermata del browser e segui la procedura guidata:
-	•	Installa i plugin suggeriti.
-	•	Saltare la configurazione come primo amministratore.
+- Incolla la password nella schermata del browser e segui la procedura guidata.
+- Installa i plugin suggeriti.
+- Saltare la configurazione come primo amministratore.
 
 6.	Configura il nodo agente jenkins_slave:
 - Vai su Gestisci Jenkins > Nodes > New Node.
