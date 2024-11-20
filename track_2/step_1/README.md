@@ -87,7 +87,7 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 - Nome: jenkins_slave
 - Directory radice remota: /home/jenkins
 - Metodo di avvio: Avvia l'agente facendolo connettere al master.
-- Salva il nodo e nella schermata del nodo appena creato copia il jenkins_secret.
+- Salva il nodo e, nella schermata del nodo appena creato, copia il jenkins_secret.
 
 7.	Aggiorna il file provision.yml:
 - Nel file provision.yml, sostituisci il valore di JENKINS_SECRET nella sezione env dello Slave con quello copiato:
