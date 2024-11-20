@@ -112,7 +112,6 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 
 - Assicurati di avere Vagrant e VirtualBox installati sul tuo sistema.
 - Questo progetto è stato testato su processori Intel e potrebbe non funzionare su dispositivi Apple Silicon ARM.
-- Ricorda di sostituire la chiave segreta dello Slave (JENKINS_SECRET) con il valore corretto generato dal Jenkins Master.
 
 ## Requisiti
 
