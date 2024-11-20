@@ -59,7 +59,7 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
    ```bash
    vagrant up
    ```
-3. Accedi alla VM (se necessario):
+3. Accedi alla VM:
    ```bash
    vagrant ssh
    ```
