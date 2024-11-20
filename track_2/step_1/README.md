@@ -69,7 +69,44 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
    sudo watch docker ps -a
    ```
 
-5. Apri il browser e accedi ai servizi Jenkins tramite gli URL forniti sopra.
+5.	Configura Jenkins tramite il browser:
+- Apri http://localhost:8080 nel browser.
+- Recupera la password di amministratore iniziale accedendo al container jenkins_master:
+   ```bash
+   sudo docker exec jenkins_master cat /var/jenkins_home/secrets/initialAdminPassword
+   ```
+
+- Incolla la password nella schermata del browser e segui la procedura guidata:
+	•	Installa i plugin suggeriti.
+	•	Saltare la configurazione come primo amministratore.
+
+6.	Configura il nodo agente jenkins_slave:
+- Vai su Gestisci Jenkins > Nodes > New Node.
+- Inserisci un nome per il nodo (es. jenkins_slave) e seleziona Agente permanente.
+- Configura i dettagli del nodo:
+	•	Nome: jenkins_slave
+	•	Directory radice remota: /home/jenkins
+	•	Metodo di avvio: Avvia l'agente facendolo connettere al master.
+	•	Salva il nodo e nella schermata del nodo appena creato copia il jenkins_secret.
+
+7.	Aggiorna il file provision.yml:
+- Nel file provision.yml, sostituisci il valore di JENKINS_SECRET nella sezione env dello Slave con quello copiato:
+
+env:
+  JENKINS_URL: http://172.20.0.2:8080
+  JENKINS_AGENT_NAME: "jenkins_slave"
+  JENKINS_AGENT_WORKDIR: "/home/jenkins"
+  JENKINS_SECRET: "jenkins_secret"  # Sostituisci con la chiave segreta del Master
+
+
+- Applica nuovamente il provisioning:
+   ```bash
+   vagrant provision
+   ```
+
+8.	Verifica che l’agente sia connesso:
+- Vai su Gestisci Jenkins > Nodes e assicurati che il nodo sia connesso.
+
 
 ## Note
 
