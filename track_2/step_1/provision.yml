@@ -4,63 +4,59 @@
   become: true
 
   tasks:
-    # Aggiorna tutti i pacchetti
+    # Aggiorna i pacchetti
     - name: Aggiorna tutti i pacchetti
       yum:
         name: "*"
         state: latest
 
-    # Installa pacchetti necessari
-    - name: Installa pacchetti richiesti
+    # Installa i prerequisiti per Docker CE
+    - name: Installa pacchetti necessari
       yum:
-        state: present
-        with_items:
+        name:
           - yum-utils
           - device-mapper-persistent-data
           - lvm2
           - python3-pip
+        state: present
 
-    # Installa modulo Python 'requests'
+    # Installa la libreria Python 'requests'
     - name: Installa il modulo Python 'requests'
       pip:
         name: requests
         executable: pip3
 
     # Aggiungi il repository Docker CE
-    - name: Configura il repository Docker CE
-      yum_repository:
-        name: docker-ce
-        description: Docker CE Repository
-        baseurl: https://download.docker.com/linux/centos/docker-ce.repo
-        gpgcheck: yes
-        gpgkey: https://download.docker.com/linux/centos/gpg
+    - name: Aggiungi il repository Docker CE
+      command: >
+        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
     # Installa Docker CE
     - name: Installa Docker CE
       yum:
-        state: present
         name:
           - docker-ce
           - docker-ce-cli
           - containerd.io
+        state: present
 
     # Abilita e avvia il servizio Docker
-    - name: Abilita e avvia Docker
+    - name: Abilita e avvia il servizio Docker
       systemd:
         name: docker
         enabled: true
         state: started
 
-    # Configura rete Docker
-    - name: Configura la rete Docker Jenkins
+    # Creazione della rete Docker per Jenkins
+    - name: Creazione di una rete Docker personalizzata
       docker_network:
         name: jenkins_network
         driver: bridge
         ipam_config:
           - subnet: "172.20.0.0/16"
 
-    # Configura il container Jenkins Master
-    - name: Configura il container Jenkins Master
+    # Configurazione del container Jenkins Master
+    - name: Esegui il container Jenkins Master
       docker_container:
         name: jenkins_master
         image: jenkins/jenkins:lts
@@ -68,13 +64,13 @@
         restart_policy: always
         networks:
           - name: jenkins_network
-            ipv4_address: 172.20.0.2
+            ipv4_address: 172.20.0.2  # IP statico per il Master
         ports:
           - "8080:8080"
           - "50000:50000"
 
-    # Configura il container Jenkins Slave
-    - name: Configura il container Jenkins Slave
+    # Configurazione del container Jenkins Slave
+    - name: Esegui il container Jenkins Slave
       docker_container:
         name: jenkins_slave
         image: jenkins/inbound-agent
@@ -82,9 +78,9 @@
         restart_policy: always
         networks:
           - name: jenkins_network
-            ipv4_address: 172.20.0.3
+            ipv4_address: 172.20.0.3  # IP statico per lo Slave
         env:
           JENKINS_URL: http://172.20.0.2:8080
           JENKINS_AGENT_NAME: "jenkins_slave"
           JENKINS_AGENT_WORKDIR: "/home/jenkins"
-          JENKINS_SECRET: "{{ jenkins_secret }}"
+          JENKINS_SECRET: "jenkins_secret"  # Sostituisci con la chiave segreta del Master
