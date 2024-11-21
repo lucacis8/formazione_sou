@@ -82,9 +82,9 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 
 6.	Configura il nodo agente jenkins_slave:
 - Vai su Gestisci Jenkins > Nodes > New Node.
-- Inserisci un nome per il nodo (es. jenkins_slave) e seleziona Agente permanente.
+- Inserisci un nome per il nodo (es. slave) e seleziona Agente permanente.
 - Configura i dettagli del nodo:
-- Nome: jenkins_slave
+- Nome: slave
 - Directory radice remota: /home/jenkins
 - Metodo di avvio: Avvia l'agente facendolo connettere al master.
 - Salva il nodo e, nella schermata del nodo appena creato, copia il jenkins_secret.
@@ -94,7 +94,7 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
    ```bash
    env:
      JENKINS_URL: http://172.20.0.2:8080
-     JENKINS_AGENT_NAME: "jenkins_slave"
+     JENKINS_AGENT_NAME: "slave"
      JENKINS_AGENT_WORKDIR: "/home/jenkins"
      JENKINS_SECRET: "jenkins_secret"  # Sostituisci con la chiave segreta del Master
    ```
