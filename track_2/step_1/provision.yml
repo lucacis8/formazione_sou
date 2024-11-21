@@ -47,6 +47,11 @@
         enabled: true
         state: started
 
+    # Creazione del volume Docker per Jenkins
+    - name: Crea il volume Docker per Jenkins
+      docker_volume:
+        name: jenkins_home
+
     # Creazione della rete Docker per Jenkins
     - name: Creazione di una rete Docker personalizzata
       docker_network:
@@ -62,6 +67,7 @@
         image: jenkins/jenkins:lts
         state: started
         restart_policy: always
+        user: root
         networks:
           - name: jenkins_network
             ipv4_address: 172.20.0.2  # IP statico per il Master
@@ -69,16 +75,20 @@
           - "8080:8080"
           - "50000:50000"
 
-    # Configurazione del container Jenkins Slave
+    # Configurazione del container Jenkins Slave (con accesso Docker)
     - name: Esegui il container Jenkins Slave
       docker_container:
         name: jenkins_slave
         image: jenkins/inbound-agent
         state: started
         restart_policy: always
+        user: root
         networks:
           - name: jenkins_network
             ipv4_address: 172.20.0.3  # IP statico per lo Slave
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock  # Monta il socket Docker per l'accesso al Docker Host
+          - jenkins_home:/var/jenkins_home           # Volume per persistenza dati
         env:
           JENKINS_URL: http://172.20.0.2:8080
           JENKINS_AGENT_NAME: "slave"
