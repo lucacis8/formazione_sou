@@ -80,7 +80,7 @@ Dopo aver eseguito il provisioning, è possibile accedere ai servizi Jenkins com
 - Installa i plugin suggeriti.
 - Saltare la configurazione come primo amministratore.
 
-6.	Configura il nodo agente jenkins_slave:
+6.	Configura il nodo agente slave:
 - Vai su Gestisci Jenkins > Nodes > New Node.
 - Inserisci un nome per il nodo (es. slave) e seleziona Agente permanente.
 - Configura i dettagli del nodo:
