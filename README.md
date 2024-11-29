@@ -1,4 +1,4 @@
-# **Formazione DevOps Academy - Track 1**
+# **Formazione Sourcesense - DevOps Academy - Track 1**
 
 ## **Introduzione**
 Benvenuti in questo repository, creato come parte del mio percorso formativo nella **DevOps Academy - Track 1**. Mi chiamo Luca Cisotto (GitHub: lucacis8), sono un aspirante **DevOps Engineer** in formazione presso **Sourcesense**. Questo spazio raccoglie il lavoro svolto e i materiali prodotti durante il mio percorso.
