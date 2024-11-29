@@ -62,6 +62,6 @@ Alcuni esempi di esercizi e progetti realizzati includono:
 ---
 
 ## **Conclusione**
-Questo repository rappresenta il lavoro svolto lungo l'intera Track 1 della DevOps Academy. Include esercitazioni pratiche, configurazioni e script sviluppati, seguendo le indicazioni fornite durante il percorso formativo.
+Questa repository rappresenta il lavoro svolto lungo l'intera Track 1 della DevOps Academy. Include esercitazioni pratiche, configurazioni e script sviluppati, seguendo le indicazioni fornite durante il percorso formativo.
 
 Per ulteriori dettagli o domande, non esitare a contattarmi. Buona esplorazione!
