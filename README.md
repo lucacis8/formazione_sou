@@ -42,7 +42,7 @@ Durante il percorso, ho lavorato su una vasta gamma di argomenti e strumenti fon
 ---
 
 ## **Materiale nel Repository**
-All'interno di questo repository troverai:
+All'interno di questa repository troverai:
 1. **Script Bash**: raccolta di script creati per automatizzare operazioni di sistema.
 2. **Configurazioni di VirtualBox e Vagrant**: file di configurazione e provisioning.
 3. **Progetti Pratici**: esercizi completi, incluse configurazioni di rete e script per gestione di ambienti containerizzati.
